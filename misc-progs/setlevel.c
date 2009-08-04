@@ -2,6 +2,7 @@
  * setlevel.c -- choose a console_loglevel for the kernel
  *
  * Copyright (C) 1998,2000,2001 Alessandro Rubini
+ * Copyright (C) 2009 Marek Belisko marek.belisko@gmail.com
  * 
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -22,12 +23,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-/* #include <unistd.h> */ /* conflicting on the alpha */
-#define __LIBRARY__ /* _syscall3 and friends are only available through this */
-#include <linux/unistd.h>
-
-/* define the system call, to override the library function */
-_syscall3(int, syslog, int, type, char *, bufp, int, len);
+#include <sys/syscall.h>
+#include <unistd.h>
+#include <syslog.h>
 
 int main(int argc, char **argv)
 {
@@ -38,7 +36,7 @@ int main(int argc, char **argv)
     } else {
         fprintf(stderr, "%s: need a single arg\n",argv[0]); exit(1);
     }
-    if (syslog(8,NULL,level) < 0) {  
+    if (syscall(__NR_syslog,8,NULL,level) < 0) {  
         fprintf(stderr,"%s: syslog(setlevel): %s\n",
                 argv[0],strerror(errno));
         exit(1);
