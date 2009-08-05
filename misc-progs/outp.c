@@ -5,6 +5,7 @@
  *     to its own name
  *
  * Copyright (C) 1998,2000,2001 Alessandro Rubini
+ * Copyright (C) 2009 Marek Belisko marek.belisko@gmail.com
  * 
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -29,12 +30,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-
-#include <asm/io.h> /* linux-specific */
-
-#ifdef __GLIBC__
-#  include <sys/perm.h>
-#endif
+#include <sys/io.h> 
 
 #define PORT_FILE "/dev/port"
 
